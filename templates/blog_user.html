@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+
+{% block content %}
+
+    <h1>Blog Page</h1>
+
+    {% if blogs.items|length == 0 %}
+
+    <p>No blogs yet</p>
+
+    {% else %}
+
+        {% for blog in blogs.items %}
+
+            <h1><a href="/blog?id={{ blog.id }}">{{ blog.title }}</a></h1>
+
+            <p>{{ blog.body }}</p>
+
+            <p class='author'>written by <a href='/blog?user={{ blog.owner.id }}'>{{ blog.owner.username }}</a> on {{ blog.pub_date }}</p>
+
+            <hr />
+
+        {% endfor %}
+
+        {% if blogs.has_prev %}<a href="{{ url_for('blog', user=[owner.id], page=blogs.prev_num) }}">&lt;&lt; Newer blogs</a>{% else %}&lt;&lt; Newer blogs{% endif %} |
+
+        {% if blogs.has_next %}<a href="{{ url_for('blog', user=[owner.id], page=blogs.next_num) }}">Older blogs &gt;&gt;</a>{% else %}Older blogs &gt;&gt;{% endif %}
+
+    {% endif %}
+
+{% endblock %}
